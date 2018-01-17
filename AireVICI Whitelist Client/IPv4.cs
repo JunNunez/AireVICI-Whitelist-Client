@@ -24,7 +24,7 @@ namespace AireVICI_Whitelist_Client
             this.URI = URI;
             this.username = username;
             this.password = password;
-
+            
             Client = new TcpClient(this.server_ip, this.port);
             
         }

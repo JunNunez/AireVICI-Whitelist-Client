@@ -16,6 +16,8 @@ namespace AireVICI_Whitelist_Client
 {
     public partial class frmAireVICI_whitelistClient : Form
     {
+        IPv4_Whitelist client;
+
         public frmAireVICI_whitelistClient()
         {
             InitializeComponent();
@@ -23,11 +25,9 @@ namespace AireVICI_Whitelist_Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            IPv4_Whitelist client = new IPv4_Whitelist(txtUsername.Text, txtPassword.Text, "162.244.66.94", 24737);
-
             //MessageBox.Show(client.GetProxy_IPv4());
-            MessageBox.Show("GetIP: " + client.GetIPv4());
-            //Process.Start("chrome.exe", "http://68.168.108.51/agc/vicidial.php?relogin=NO&VD_login=airespringjun&VD_campaign=3102017&phone_login=8189220958&phone_pass=P88sI55d&VD_pass=P88sI55d");
+            //MessageBox.Show("GetIP: " + client.GetIPv4());
+            Process.Start(txtBrowser.Text, "http://68.168.108.51/agc/vicidial.php?relogin=NO&VD_login=airespringjun&VD_campaign=3102017&phone_login=8189220958&phone_pass=P88sI55d&VD_pass=P88sI55d");
             //MySql.Data.MySqlClient.MySqlConnection db;
 
             //string connStr = "server=68.168.108.42;port=3306;Database=AireVICI;uid=whitelist;pwd=723FxZpoQqkL;";
@@ -74,12 +74,22 @@ namespace AireVICI_Whitelist_Client
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            client = new IPv4_Whitelist(txtUsername.Text, txtPassword.Text, "162.244.66.94", 24737);
+            
+            
         }
 
         private void TimerWhitelist_Tick(object sender, EventArgs e)
         {
             // Here lies the magic
+
+            if(client.IsConnected() == false)
+            {
+                client = new IPv4_Whitelist(txtUsername.Text, txtPassword.Text, "162.244.66.94", 24737);
+            }
+            lbl_new_ipv4.Text = client.GetIPv4();
+            lbl_new_proxy_ipv4.Text = client.GetProxy_IPv4();
+            
         }
 
         private void txtBrowser_Click(object sender, EventArgs e)
